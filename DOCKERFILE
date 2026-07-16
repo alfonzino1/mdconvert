@@ -1,0 +1,27 @@
+# === Этап 1: Сборка зависимостей ===
+FROM python:3.12-slim as builder
+WORKDIR /app
+COPY requirements.txt .
+# Собираем зависимости в формате wheel-пакетов
+RUN pip install --no-cache-dir --user -r requirements.txt \
+    || pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
+
+# === Этап 2: Финальный образ ===
+FROM python:3.12-slim
+WORKDIR /app
+
+# Копируем wheels из сборщика и устанавливаем их напрямую в систему
+COPY --from=builder /app/wheels /images/wheels
+COPY --from=builder /app/requirements.txt .
+RUN pip install --no-cache-dir --no-index --find-links=/images/wheels -r requirements.txt \
+    && rm -rf /images/wheels
+
+# Копируем скрипт приложения
+COPY mdconvert.py .
+
+# Безопасность: создание и переключение на пользователя
+RUN useradd -m mdconvert
+USER mdconvert
+
+# Корректная точка входа
+ENTRYPOINT ["python", "mdconvert.py"]

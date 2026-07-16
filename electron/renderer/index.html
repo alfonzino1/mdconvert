@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Converter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Title Bar -->
+  <div class="titlebar">
+    <div class="titlebar-drag">
+      <span class="titlebar-title">⚡ Markdown Converter</span>
+    </div>
+    <div class="titlebar-controls">
+      <button onclick="window.api.minimize()" class="titlebar-btn">─</button>
+      <button onclick="window.api.maximize()" class="titlebar-btn">□</button>
+      <button onclick="window.api.close()" class="titlebar-btn titlebar-close">×</button>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>History</h2>
+        <button onclick="clearHistory()" class="btn-clear">Clear</button>
+      </div>
+      <div class="history-list" id="historyList">
+        <p class="empty-state">No history yet</p>
+      </div>
+    </aside>
+
+    <!-- Editor -->
+    <main class="editor">
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <button onclick="insertFormat('h1')" class="toolbar-btn" title="H1">H1</button>
+          <button onclick="insertFormat('h2')" class="toolbar-btn" title="H2">H2</button>
+          <button onclick="insertFormat('h3')" class="toolbar-btn" title="H3">H3</button>
+          <span class="toolbar-divider"></span>
+          <button onclick="insertFormat('bold')" class="toolbar-btn" title="Bold"><b>B</b></button>
+          <button onclick="insertFormat('italic')" class="toolbar-btn" title="Italic"><i>I</i></button>
+          <button onclick="insertFormat('code')" class="toolbar-btn" title="Code">&lt;/&gt;</button>
+          <span class="toolbar-divider"></span>
+          <button onclick="insertFormat('ul')" class="toolbar-btn" title="List">•</button>
+          <button onclick="insertFormat('ol')" class="toolbar-btn" title="Ordered">1.</button>
+          <button onclick="insertFormat('task')" class="toolbar-btn" title="Tasks">☑</button>
+          <button onclick="insertFormat('quote')" class="toolbar-btn" title="Quote">"</button>
+        </div>
+        <div class="toolbar-group">
+          <select id="formatSelect" class="toolbar-select">
+            <option value="claude">Claude</option>
+            <option value="github">GitHub</option>
+            <option value="standard">Standard</option>
+          </select>
+          <button onclick="convertText()" class="btn-convert">⚡ Convert</button>
+          <button onclick="copyOutput()" class="btn-copy">📋 Copy</button>
+        </div>
+      </div>
+
+      <!-- Editor Area -->
+      <div class="editor-area">
+        <div class="editor-pane">
+          <div class="pane-header">Input</div>
+          <textarea 
+            id="inputText" 
+            placeholder="Paste your text here..."
+            class="text-input"
+          ></textarea>
+        </div>
+        <div class="editor-pane">
+          <div class="pane-header">
+            Output
+            <span id="statsLabel" class="stats-label"></span>
+          </div>
+          <div id="outputText" class="text-output">
+            <span class="placeholder">Your Markdown will appear here...</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Notification -->
+  <div id="notification" class="notification hidden">
+    <span id="notificationText"></span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

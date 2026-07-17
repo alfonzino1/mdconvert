@@ -1,0 +1,74 @@
+{
+  "name": "mdconvert",
+  "displayName": "Markdown Converter",
+  "version": "1.0.0",
+  "description": "Smart text-to-Markdown converter for Claude token optimization",
+  "publisher": "alfonzino1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Formatters", "Other"],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mdconvert.convert",
+        "title": "Convert to Markdown"
+      },
+      {
+        "command": "mdconvert.convertSelection",
+        "title": "Convert Selection to Markdown"
+      },
+      {
+        "command": "mdconvert.copyAsMarkdown",
+        "title": "Copy as Markdown"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "mdconvert.convertSelection",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "mdconvert.convertSelection",
+          "group": "modification"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Markdown Converter",
+      "properties": {
+        "mdconvert.format": {
+          "type": "string",
+          "enum": ["claude", "github", "standard"],
+          "default": "claude",
+          "description": "Output format style"
+        },
+        "mdconvert.autoCopy": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-copy result to clipboard"
+        },
+        "mdconvert.showStats": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show conversion statistics"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}
